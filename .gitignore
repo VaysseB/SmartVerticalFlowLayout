@@ -1,0 +1,8 @@
+*~
+.*
+*.pro.user
+
+/_save
+/_datas
+
+!/.gitignore
