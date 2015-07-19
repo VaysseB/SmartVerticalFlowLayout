@@ -13,13 +13,17 @@ It doesn't required any external components, just Qt framework (obviously).
 
 Enjoy ! :-)
 
-## Screeshots
+## Screenshots
 
-
+Example window:
 
 ![Screenshot at startup](https://github.com/VaysseB/SmartVerticalFlowLayout/blob/master/screenshot_default.png)
 
+Stretch content to fill rows:
+
 ![Screenshot with stretch option](https://github.com/VaysseB/SmartVerticalFlowLayout/blob/master/screenshot_stretch.png)
+
+Centered with max 5 elements par row:
 
 ![Screenshot with max element par row option](https://github.com/VaysseB/SmartVerticalFlowLayout/blob/master/screenshot_maxelements_centered.png)
 
