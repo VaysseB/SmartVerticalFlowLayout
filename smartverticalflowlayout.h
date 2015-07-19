@@ -6,7 +6,15 @@
 #include <QStyle>
 
 
-class SmartVerticalFlowLayout : public QLayout
+QT_BEGIN_NAMESPACE
+
+
+/**
+ * @brief The SmartVerticalFlowLayout class is a flow layout. It provide also
+ * standard alignment on item (Left, Center and Right), and can strecth items
+ * on the row, in order to use row width entirely (Justify or 0).
+ */
+class Q_WIDGETS_EXPORT SmartVerticalFlowLayout : public QLayout
 {
     Q_OBJECT
 
@@ -26,6 +34,10 @@ public:
     int horizontalSpacing() const;
     int verticalSpacing() const;
 
+    /**
+     * @brief Return with no expanding direction if aligment isn't justify nor 0.
+     * @return Qt::Horizontal or 0
+     */
     Qt::Orientations expandingDirections() const;
 
     QSize sizeHint() const;
@@ -36,15 +48,25 @@ public slots:
     void setHorizontalSpacing(int space);
     void setVerticalSpacing(int space);
 
+    /**
+     * @brief Change alignment of all items.
+     * You must call SmartVerticalFlowLayout::updateLayout() if called as
+     * QLayout* or QLayoutItem* because the function isn't virtual
+     *
+     * @param align Items alignment (0, Justify, Left, Center, Right)
+     */
     void setAlignment(Qt::Alignment align);
 
+    /**
+     * @brief Force layout to reprocess all items positions.
+     */
     void updateLayout();
 
 private:
     void doLayout(const QRect &rect);
     int smartSpacing(QStyle::PixelMetric pm) const;
-    QSize sizeOfItem(const QLayoutItem* item) const;
 
+private:
     QList<QLayoutItem *> m_items;
     int m_hSpace;
     int m_vSpace;
@@ -57,5 +79,7 @@ private:
     Q_DISABLE_COPY(SmartVerticalFlowLayout)
 };
 
+
+QT_END_NAMESPACE
 
 #endif // SMARTVERTICALFLOWLAYOUT_H

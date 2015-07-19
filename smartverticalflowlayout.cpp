@@ -133,7 +133,7 @@ void SmartVerticalFlowLayout::doLayout(const QRect &rect)
     QLayoutItem* item = 0;
     QList<QLayoutItem*> rowItems;
     Q_FOREACH(item, m_items) {
-        QSize itemSize = sizeOfItem(item);
+        QSize itemSize = item->sizeHint();
 
         // if the item is over the line limit
         if (x + itemSize.width() > effectiveRect.right()+1) {
@@ -166,7 +166,7 @@ void SmartVerticalFlowLayout::doLayout(const QRect &rect)
         int rowHeight = 0;
         int rowWidth = 0;
         Q_FOREACH(item, rowItems) {
-            QSize itemSize = sizeOfItem(item);
+            QSize itemSize = item->sizeHint();
             rowWidth += itemSize.width();
             rowHeight = qMax(rowHeight, itemSize.height());
         }
@@ -199,7 +199,7 @@ void SmartVerticalFlowLayout::doLayout(const QRect &rect)
         // setting position of row elements
         Q_FOREACH(item, rowItems) {
 
-            QSize itemSize = sizeOfItem(item);
+            QSize itemSize = item->sizeHint();
 
             QRect itemGeometry;
 
@@ -256,15 +256,4 @@ int SmartVerticalFlowLayout::smartSpacing(QStyle::PixelMetric pm) const
     else if ((parentLayout = qobject_cast<QLayout*>(parent)))
         space = parentLayout->spacing();
     return qMax(space, 0);
-}
-
-
-QSize SmartVerticalFlowLayout::sizeOfItem(const QLayoutItem* item) const
-{
-    QSize itemSizeHint = item->sizeHint();
-    QSize itemMinSize = item->minimumSize();
-    if (itemSizeHint.width() >= itemMinSize.width() &&
-            itemSizeHint.height() >= itemMinSize.height())
-        return itemSizeHint;
-    return itemMinSize;
 }
