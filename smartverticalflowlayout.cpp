@@ -8,6 +8,7 @@ SmartVerticalFlowLayout::SmartVerticalFlowLayout(QWidget *parent) :
     QLayout(parent),
     m_hSpace(-1),
     m_vSpace(-1),
+    m_maxRowCount(-1),
     m_isLayoutModified(false)
 {
     setContentsMargins(-1, -1, -1, -1);
@@ -45,6 +46,20 @@ void SmartVerticalFlowLayout::setVerticalSpacing(int space)
 {
     m_isLayoutModified |= (m_vSpace != space);
     m_vSpace = space;
+    doLayout(geometry());
+}
+
+//------------------------------------------------------------------------------
+
+int SmartVerticalFlowLayout::maxRowCount() const
+{
+    return m_maxRowCount;
+}
+
+void SmartVerticalFlowLayout::setMaxRowCount(int count)
+{
+    m_isLayoutModified |= (m_maxRowCount != count);
+    m_maxRowCount = count;
     doLayout(geometry());
 }
 
@@ -132,11 +147,13 @@ void SmartVerticalFlowLayout::doLayout(const QRect &rect)
     m_structure.clear();
     QLayoutItem* item = 0;
     QList<QLayoutItem*> rowItems;
+
     Q_FOREACH(item, m_items) {
         QSize itemSize = item->sizeHint();
 
-        // if the item is over the line limit
-        if (x + itemSize.width() > effectiveRect.right()+1) {
+        // if the item is over the line limit OR limit reach per row
+        if (x + itemSize.width() > effectiveRect.right()+1 ||
+                (m_maxRowCount > 0 && rowItems.count() >= m_maxRowCount)) {
             // if the line isn't empty => we add to the structure
             // and reset the row
             if (!rowItems.isEmpty()) {
@@ -152,6 +169,7 @@ void SmartVerticalFlowLayout::doLayout(const QRect &rect)
 
     if (!rowItems.isEmpty())
         m_structure.append(rowItems);
+
 
 
     int y = effectiveRect.y();
@@ -205,8 +223,8 @@ void SmartVerticalFlowLayout::doLayout(const QRect &rect)
 
             // if no strect and align
             if ((alignment() & Qt::AlignHCenter)
-                     || (alignment() & Qt::AlignLeft)
-                     || (alignment() & Qt::AlignRight)) {
+                    || (alignment() & Qt::AlignLeft)
+                    || (alignment() & Qt::AlignRight)) {
                 itemGeometry = QRect(x, y, itemSize.width(), rowHeight);
 
                 // moving to next element position
@@ -216,7 +234,7 @@ void SmartVerticalFlowLayout::doLayout(const QRect &rect)
             else {
                 // getting true width depending on the pourcentage of width taken by the item in the row
                 qreal strecthOptimalWidth = (effectiveRect.width() - hSpaceTot) *
-                         ((qreal)itemSize.width()) / ((qreal)rowWidth);
+                        ((qreal)itemSize.width()) / ((qreal)rowWidth);
 
                 itemGeometry = QRect(x, y, qFloor(strecthOptimalWidth), rowHeight);
 
@@ -241,7 +259,6 @@ void SmartVerticalFlowLayout::doLayout(const QRect &rect)
 
     m_isLayoutModified = false;
 }
-
 
 int SmartVerticalFlowLayout::smartSpacing(QStyle::PixelMetric pm) const
 {
