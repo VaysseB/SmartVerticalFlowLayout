@@ -60,18 +60,21 @@ void MainWindow::updateNumberOfElement(int number)
 {
     ui->groupNumberElements->setTitle(QStringLiteral("Elements: %1").arg(number));
 
-    while (mp_fixedLayout->count() < number) {
+    while (mp_fixedLayout->count() < number)
         mp_fixedLayout->addWidget(createWidget(mp_fixedLayout, ui->fixedContent));
+    while (mp_scrollLayout->count() < number)
         mp_scrollLayout->addWidget(createWidget(mp_scrollLayout, ui->scrollableContent));
-    }
 
     while (mp_fixedLayout->count() > number) {
         QLayoutItem* item = mp_fixedLayout->takeAt(mp_fixedLayout->count()-1);
-        delete item->widget();
+        if (item->widget())
+            item->widget()->deleteLater();
         delete item;
-
-        item = mp_scrollLayout->takeAt(mp_scrollLayout->count()-1);
-        delete item->widget();
+    }
+    while (mp_scrollLayout->count() > number) {
+        QLayoutItem* item = mp_scrollLayout->takeAt(mp_scrollLayout->count()-1);
+        if (item->widget())
+            item->widget()->deleteLater();
         delete item;
     }
 }
@@ -90,10 +93,10 @@ QWidget* MainWindow::createWidget(SmartVerticalFlowLayout *layout, QWidget *mast
         // 4,5 -> small
         // 6 -> average (vertical)
 
-        counter = counter % 7;
-        if (counter == 3)
+        int modCounter = counter % 7;
+        if (modCounter == 3)
             xFact = 2;
-        else if (counter == 6)
+        else if (modCounter == 6)
             yFact = 2;
     }
     // all sizes
@@ -106,24 +109,24 @@ QWidget* MainWindow::createWidget(SmartVerticalFlowLayout *layout, QWidget *mast
         // 24 -> 1*3
         // 29 -> 5*2
 
-        counter = counter % 30;
-        if (counter == 4)
+        int modCounter = counter % 30;
+        if (modCounter == 4)
             xFact = 2;
-        else if (counter == 8)
+        else if (modCounter == 8)
             yFact = 2;
-        else if (counter == 12) {
+        else if (modCounter == 12) {
             xFact = 3;
             yFact = 3;
         }
-        else if (counter == 15) {
+        else if (modCounter == 15) {
             xFact = 2;
             yFact = 3;
         }
-        else if (counter == 18)
+        else if (modCounter == 18)
             xFact = 3;
-        else if (counter == 24)
+        else if (modCounter == 24)
             yFact = 3;
-        else if (counter == 29) {
+        else if (modCounter == 29) {
             xFact = 5;
             yFact = 2;
         }
@@ -138,7 +141,6 @@ QWidget* MainWindow::createWidget(SmartVerticalFlowLayout *layout, QWidget *mast
     QWidget* widget = button;
     widget->setSizePolicy(elementPolicy());
 
-//    widget->setStyleSheet("QPushButton{ border: 1px solid black; background-color: white; }");
     widget->setMinimumSize(size);
     layout->addWidget(widget);
     return widget;

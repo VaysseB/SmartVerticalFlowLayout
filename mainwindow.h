@@ -55,7 +55,8 @@ class DemoWidget : public QPushButton
 {
     Q_OBJECT
 public:
-    DemoWidget(QWidget* parent, const QSize& hint) : QPushButton(parent) { trueHintSize = hint; }
+    explicit DemoWidget(QWidget* parent, const QSize& hint) : QPushButton(parent) { trueHintSize = hint; }
+    virtual ~DemoWidget() {}
 
     QSize sizeHint() const { return trueHintSize; }
 

@@ -214,7 +214,7 @@ void SmartVerticalFlowLayout::doLayout(const QRect &rect)
             }
             // if stretch content
             else {
-                // getting tru width depending on the pourcentage of width taken by the item
+                // getting true width depending on the pourcentage of width taken by the item in the row
                 qreal strecthOptimalWidth = (effectiveRect.width() - hSpaceTot) *
                          ((qreal)itemSize.width()) / ((qreal)rowWidth);
 
@@ -235,7 +235,7 @@ void SmartVerticalFlowLayout::doLayout(const QRect &rect)
         y += rowHeight + verticalSpacing();
     }
 
-    layoutGeometry.setHeight(y + bottom);
+    layoutGeometry.setHeight(layoutGeometry.height() + bottom);
     layoutGeometry.setWidth(layoutGeometry.width() + right);
     m_structureSize = layoutGeometry.size();
 
