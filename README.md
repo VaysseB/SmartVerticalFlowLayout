@@ -15,9 +15,13 @@ Enjoy ! :-)
 
 ## Screeshots
 
+
+
 ![Screenshot at startup](https://github.com/VaysseB/SmartVerticalFlowLayout/blob/master/screenshot_default.png)
 
 ![Screenshot with stretch option](https://github.com/VaysseB/SmartVerticalFlowLayout/blob/master/screenshot_stretch.png)
+
+![Screenshot with max element par row option](https://github.com/VaysseB/SmartVerticalFlowLayout/blob/master/screenshot_maxelements_centered.png)
 
 ## License
 
