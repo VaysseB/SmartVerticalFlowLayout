@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>684</width>
-    <height>352</height>
+    <width>552</width>
+    <height>407</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>SmartVerticalFlowLayout demo</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,1">
+   <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1">
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
@@ -261,6 +261,37 @@ elements ?</string>
        </widget>
       </item>
       <item>
+       <widget class="QGroupBox" name="groupBox_3">
+        <property name="title">
+         <string>Max elements par row</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>4</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QSpinBox" name="spinBoxMaxElements">
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
+           <property name="value">
+            <number>0</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -274,18 +305,6 @@ elements ?</string>
        </spacer>
       </item>
      </layout>
-    </item>
-    <item>
-     <widget class="QWidget" name="fixedContent" native="true">
-      <property name="focusPolicy">
-       <enum>Qt::ClickFocus</enum>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QWidget#fixedContent {
-  border: 1px dashed black;
-}</string>
-      </property>
-     </widget>
     </item>
     <item>
      <widget class="QScrollArea" name="scrollArea">
@@ -303,8 +322,8 @@ elements ?</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>271</width>
-         <height>305</height>
+         <width>370</width>
+         <height>360</height>
         </rect>
        </property>
        <property name="focusPolicy">
@@ -320,7 +339,7 @@ elements ?</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>684</width>
+     <width>552</width>
      <height>27</height>
     </rect>
    </property>
@@ -328,8 +347,6 @@ elements ?</string>
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionShow_not_scrollable_panel"/>
-    <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
    <addaction name="menuFile"/>

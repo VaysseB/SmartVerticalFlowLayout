@@ -9,13 +9,9 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    mp_scrollLayout(NULL),
-    mp_fixedLayout(NULL)
+    mp_scrollLayout(NULL)
 {
     ui->setupUi(this);
-
-    mp_fixedLayout = new SmartVerticalFlowLayout(ui->fixedContent);
-    ui->fixedContent->setLayout(mp_fixedLayout);
 
     mp_scrollLayout = new SmartVerticalFlowLayout(ui->scrollableContent);
     ui->scrollableContent->setLayout(mp_scrollLayout);
@@ -26,9 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->boxAlignment->setItemData(1, Qt::AlignLeft);
     ui->boxAlignment->setItemData(2, Qt::AlignHCenter);
     ui->boxAlignment->setItemData(3, Qt::AlignRight);
-
-
-    ui->fixedContent->hide();
 
     //
     connect(ui->actionQuit, SIGNAL(triggered()),
@@ -49,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     on_boxAlignment_currentIndexChanged(ui->boxAlignment->currentIndex());
     on_spinBoxVerticalSpace_valueChanged(ui->spinBoxVerticalSpace->value());
     on_spinBoxHorizontalSpace_valueChanged(ui->spinBoxHorizontalSpace->value());
+    on_spinBoxMaxElements_valueChanged(ui->spinBoxMaxElements->value());
 }
 
 MainWindow::~MainWindow()
@@ -60,17 +54,9 @@ void MainWindow::updateNumberOfElement(int number)
 {
     ui->groupNumberElements->setTitle(QStringLiteral("Elements: %1").arg(number));
 
-    while (mp_fixedLayout->count() < number)
-        mp_fixedLayout->addWidget(createWidget(mp_fixedLayout, ui->fixedContent));
     while (mp_scrollLayout->count() < number)
         mp_scrollLayout->addWidget(createWidget(mp_scrollLayout, ui->scrollableContent));
 
-    while (mp_fixedLayout->count() > number) {
-        QLayoutItem* item = mp_fixedLayout->takeAt(mp_fixedLayout->count()-1);
-        if (item->widget())
-            item->widget()->deleteLater();
-        delete item;
-    }
     while (mp_scrollLayout->count() > number) {
         QLayoutItem* item = mp_scrollLayout->takeAt(mp_scrollLayout->count()-1);
         if (item->widget())
@@ -153,12 +139,6 @@ void MainWindow::updateMargin()
                 ui->spinBoxVerticalMargins->value(),
                 ui->spinBoxHorizontalMargins->value(),
                 ui->spinBoxVerticalMargins->value());
-
-    mp_fixedLayout->setContentsMargins(
-                ui->spinBoxHorizontalMargins->value(),
-                ui->spinBoxVerticalMargins->value(),
-                ui->spinBoxHorizontalMargins->value(),
-                ui->spinBoxVerticalMargins->value());
 }
 
 void MainWindow::resizeEvent(QResizeEvent* event)
@@ -177,25 +157,17 @@ void MainWindow::on_boxExample_currentIndexChanged(int)
 void MainWindow::on_boxAlignment_currentIndexChanged(int index)
 {
     Qt::Alignment align = (Qt::Alignment)ui->boxAlignment->itemData(index).toInt();
-    mp_fixedLayout->setAlignment(align);
     mp_scrollLayout->setAlignment(align);
 }
 
 void MainWindow::on_spinBoxVerticalSpace_valueChanged(int space)
 {
-    mp_fixedLayout->setVerticalSpacing(space);
     mp_scrollLayout->setVerticalSpacing(space);
 }
 
 void MainWindow::on_spinBoxHorizontalSpace_valueChanged(int space)
 {
-    mp_fixedLayout->setHorizontalSpacing(space);
     mp_scrollLayout->setHorizontalSpacing(space);
-}
-
-void MainWindow::on_actionShow_not_scrollable_panel_toggled(bool enable)
-{
-    ui->fixedContent->setVisible(enable);
 }
 
 void MainWindow::updateElementsPolicy()
@@ -212,4 +184,9 @@ QSizePolicy MainWindow::elementPolicy() const
     // or else, return default policy
     return QSizePolicy(QSizePolicy::Minimum,
                        QSizePolicy::Fixed);
+}
+
+void MainWindow::on_spinBoxMaxElements_valueChanged(int count)
+{
+    mp_scrollLayout->setMaxRowCount(count);
 }

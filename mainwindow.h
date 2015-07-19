@@ -31,7 +31,7 @@ private slots:
     void on_spinBoxVerticalSpace_valueChanged(int space);
     void on_spinBoxHorizontalSpace_valueChanged(int space);
 
-    void on_actionShow_not_scrollable_panel_toggled(bool enable);
+    void on_spinBoxMaxElements_valueChanged(int count);
 
     void updateElementsPolicy();
 
@@ -44,7 +44,6 @@ private:
     Ui::MainWindow *ui;
 
     SmartVerticalFlowLayout* mp_scrollLayout;
-    SmartVerticalFlowLayout* mp_fixedLayout;
 };
 
 
