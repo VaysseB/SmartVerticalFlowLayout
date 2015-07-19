@@ -47,12 +47,15 @@
         <property name="focusPolicy">
          <enum>Qt::ClickFocus</enum>
         </property>
+        <property name="currentIndex">
+         <number>1</number>
+        </property>
         <property name="sizeAdjustPolicy">
          <enum>QComboBox::AdjustToMinimumContentsLength</enum>
         </property>
         <item>
          <property name="text">
-          <string>Qt::AlignJustify (default)</string>
+          <string>Qt::AlignJustify (or 0, default)</string>
          </property>
         </item>
         <item>
@@ -130,7 +133,7 @@
             <number>1</number>
            </property>
            <property name="sliderPosition">
-            <number>1</number>
+            <number>27</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>

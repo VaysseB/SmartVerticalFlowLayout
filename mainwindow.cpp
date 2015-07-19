@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //
     updateMargin();
     updateNumberOfElement(ui->slideNumberElements->value());
+    on_boxAlignment_currentIndexChanged(ui->boxAlignment->currentIndex());
     on_spinBoxVerticalSpace_valueChanged(ui->spinBoxVerticalSpace->value());
     on_spinBoxHorizontalSpace_valueChanged(ui->spinBoxHorizontalSpace->value());
 }
@@ -77,7 +78,7 @@ void MainWindow::updateNumberOfElement(int number)
 
 QWidget* MainWindow::createWidget(SmartVerticalFlowLayout *layout, QWidget *master) const
 {
-    static const QSize unitSize = QSize(50, 25);
+    static const QSize unitSize = QSize(60, 35);
 
     int counter = layout->count();
     int xFact = 1, yFact = 1;
