@@ -72,7 +72,7 @@ private:
     int m_vSpace;
 
     QList<QList<QLayoutItem*> > m_structure;
-    QSize m_structureSize;
+    QRect m_structureGeometry;
     bool m_isLayoutModified;
 
 private:

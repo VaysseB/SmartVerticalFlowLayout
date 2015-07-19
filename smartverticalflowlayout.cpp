@@ -96,13 +96,13 @@ Qt::Orientations SmartVerticalFlowLayout::expandingDirections() const
 void SmartVerticalFlowLayout::setGeometry(const QRect &rect)
 {
     m_isLayoutModified |= (rect != geometry());
-    QLayout::setGeometry(rect);
     doLayout(rect);
+    QLayout::setGeometry(rect);
 }
 
 QSize SmartVerticalFlowLayout::sizeHint() const
 {
-    return m_structureSize;
+    return m_structureGeometry.size();
 }
 
 QSize SmartVerticalFlowLayout::minimumSize() const
@@ -156,7 +156,7 @@ void SmartVerticalFlowLayout::doLayout(const QRect &rect)
 
     int y = effectiveRect.y();
     // update items position
-    QRect layoutGeometry = QRect(0, 0, 0, 0);
+    QRect layoutGeometry = QRect(0, 0, 1, 1); // width and height msut be positive ! (otherwise, infinite loop)
     Q_FOREACH(rowItems, m_structure) {
 
         // reset horizontal position
@@ -237,7 +237,7 @@ void SmartVerticalFlowLayout::doLayout(const QRect &rect)
 
     layoutGeometry.setHeight(layoutGeometry.height() + bottom);
     layoutGeometry.setWidth(layoutGeometry.width() + right);
-    m_structureSize = layoutGeometry.size();
+    m_structureGeometry = layoutGeometry;
 
     m_isLayoutModified = false;
 }
